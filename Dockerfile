@@ -34,7 +34,7 @@ COPY config/default /etc/nginx/sites-available/
 RUN [mkdir /etc/uwsgi-emperor && \
     mkdir /etc/uwsgi-emperor/vassals]
 COPY [config/emperor.ini /etc/uwsgi-emperor/ && \
-      config/django.ini /etc/uwsgi-emperor/vassals/
+      config/django.ini /etc/uwsgi-emperor/vassals/]
 
 RUN service nginx restart
 
