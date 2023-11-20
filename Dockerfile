@@ -27,7 +27,8 @@ RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-prope
 WORKDIR /django
 COPY . /django
 ENV PATH="/django/bin:$PATH"
-RUN /bin/bash -c "source /django/Project/Include/Scripts/activate"
+RUN ls /django
+RUN /bin/bash -c "source /django/bin/activate"
 RUN pip install -r requirements.txt
 COPY config/default /etc/nginx/sites-available/
 RUN [mkdir /etc/uwsgi-emperor && \
