@@ -26,11 +26,11 @@ RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-prope
 
 WORKDIR /django
 COPY . /django
-ENV PATH="/django/Project/Scripts:$PATH"
+ENV PATH="./Project/Scripts:$PATH"
 
 RUN ls /django
 
-RUN /bin/bash -c "source /django/Project/Scripts/activate"
+RUN /bin/bash -c "source ./Project/Scripts/activate"
 RUN pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r requirements.txt
 COPY config/default /etc/nginx/sites-available/
 RUN /bin/bash -c 'mkdir /etc/uwsgi-emperor' && \
