@@ -28,7 +28,7 @@ WORKDIR /django
 COPY . /django
 ENV PATH="/django/bin:$PATH"
 
-RUN ls /
+RUN ls /django
 
 RUN /bin/bash -c "source /Project/Scripts/activate"
 RUN pip install -r requirements.txt
