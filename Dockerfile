@@ -33,8 +33,8 @@ RUN ls /django
 RUN /bin/bash -c "source /django/Project/Scripts/activate"
 RUN pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r requirements.txt
 COPY config/default /etc/nginx/sites-available/
-RUN [mkdir /etc/uwsgi-emperor && \
-    mkdir /etc/uwsgi-emperor/vassals]
+RUN '/bin/bash -c [mkdir /etc/uwsgi-emperor && \
+    mkdir /etc/uwsgi-emperor/vassals]'
 COPY [config/emperor.ini /etc/uwsgi-emperor/ && \
       config/django.ini /etc/uwsgi-emperor/vassals/]
 
