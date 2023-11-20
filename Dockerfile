@@ -26,7 +26,7 @@ RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-prope
 
 WORKDIR /django
 COPY . /django
-ENV PATH="/django/bin:$PATH"
+ENV PATH="/django/Project/Scripts/bin:$PATH"
 
 RUN ls /django
 
