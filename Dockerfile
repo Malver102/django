@@ -21,7 +21,7 @@ run apt-get update
 ENV DEBIAN_FRONTEND=noninteractive
 
 # install required packages
-RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-properties-common vim
+RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-properties-common vim uwsgi
 
 
 WORKDIR /django
@@ -38,8 +38,7 @@ RUN /bin/bash -c 'mkdir /etc/uwsgi-emperor' && \
 COPY config/emperor.ini /etc/uwsgi-emperor/
 COPY config/django.ini /etc/uwsgi-emperor/vassals/
 
-
+# RUN service nginx restart
 
 expose 80
-#cmd ["uwsgi", "--emperor", "/etc/uwsgi-emperor/emperor.ini"]
-CMD ["service", "nginx", "start"]
+cmd ["uwsgi", "--emperor", "/etc/uwsgi-emperor/emperor.ini"]
