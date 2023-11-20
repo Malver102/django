@@ -6,9 +6,9 @@ server {
 
     location / {
         include         uwsgi_params;
-        uwsgi_pass      unix:/django/django_app.sock;
-        uwsgi_param     UWSGI_CHDIR /django;
-        uwsgi_param     UWSGI_SCRIPT django.wsgi:application;
+        uwsgi_pass      unix:/etc/uwsgi-emperor/emperor.sock;
+        uwsgi_param     UWSGI_CHDIR /etc/uwsgi-emperor;
+        uwsgi_param     UWSGI_SCRIPT emperor.ini;
     }
 
     location /static/ {

@@ -30,7 +30,12 @@ ENV PATH="/django/bin:$PATH"
 RUN /bin/bash -c "source /django/Project/Include/Scripts/activate"
 RUN pip install -r requirements.txt
 COPY config/default /etc/nginx/sites-available/
+RUN [mkdir /etc/uwsgi-emperor && \
+    mkdir /etc/uwsgi-emperor/vassals]
+COPY [config/emperor.ini /etc/uwsgi-emperor/ && \
+      config/django.ini /etc/uwsgi-emperor/vassals/
 
+RUN service nginx restart
 
 expose 80
-cmd ["service", "nginx", "start"]
+cmd ["uwsgi", "--emperor", "/etc/uwsgi-emperor/emperor.ini"]
