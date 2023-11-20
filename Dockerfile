@@ -30,7 +30,7 @@ ENV PATH="/django/bin:$PATH"
 
 RUN ls /django
 
-RUN /bin/bash -c "source /Project/Scripts/activate"
+RUN /bin/bash -c "source /django/Project/Scripts/activate"
 RUN pip install -r requirements.txt
 COPY config/default /etc/nginx/sites-available/
 RUN [mkdir /etc/uwsgi-emperor && \
