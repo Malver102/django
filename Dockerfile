@@ -39,7 +39,6 @@ RUN /bin/bash -c 'mkdir /etc/uwsgi-emperor' && \
 COPY config/emperor.ini /etc/uwsgi-emperor/
 COPY config/django.ini /etc/uwsgi-emperor/vassals/
 
-RUN service nginx start || true
-
-expose 80
+RUN service nginx start
+expose 8000
 cmd ["uwsgi", "--emperor", "/etc/uwsgi-emperor/emperor.ini"]
