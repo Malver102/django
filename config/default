@@ -3,11 +3,6 @@ server {
     listen 80;
     server_name 192.168.199.41;
 
-    location / {
-        root   /var/www/html;
-        index  index.html index.htm indexedDB.nginx-debian.html;
-    }
-
     location /app1/ {
         include         uwsgi_params;
         uwsgi_pass      unix:/django/django_app/app1/app1.sock;
