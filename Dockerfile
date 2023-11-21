@@ -41,14 +41,13 @@ RUN /django/bin/django-admin startproject django_app
 COPY . /django
 COPY config/default /etc/nginx/sites-available/
 
-RUN /bin/bash -c 'mkdir /etc/uwsgi-emperor' && \
-    /bin/bash -c 'mkdir /etc/uwsgi-emperor/vassals'
+RUN /bin/bash -c 'mkdir /etc/uwsgi/emperor.d'
 
-COPY config/emperor.ini /etc/uwsgi-emperor/ 
-COPY config/django.ini /etc/uwsgi-emperor/vassals/
+COPY config/app1_uwsgi.ini /etc/uwsgi/emperor.d/
+COPY config/app2_uwsgi.ini /etc/uwsgi/emperor.d/
 
-RUN service nginx restart
+ENTRYPOINT ["/django/run.sh"]
 
 EXPOSE 8000
 
-CMD ["uwsgi", "--emperor", "/etc/uwsgi-emperor/emperor.ini"]
+CMD bash

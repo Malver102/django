@@ -1,14 +1,20 @@
+
 server {
     listen 80;
-    server_name 0.0.0.0;  # Zmodyfikuj na swoją domenę
+    server_name your_domain.com;
 
-    location = /favicon.ico { access_log off; log_not_found off; }
-
-    location / {
+    location /app1/ {
         include         uwsgi_params;
-        uwsgi_pass      unix:/etc/uwsgi-emperor/emperor.sock;
-        uwsgi_param     UWSGI_CHDIR /etc/uwsgi-emperor;
-        uwsgi_param     UWSGI_SCRIPT emperor.ini;
+        uwsgi_pass      unix:/django/django_app/app1/app1.sock;
+        uwsgi_param     UWSGI_CHDIR /django/django_app/app1;
+        uwsgi_param     UWSGI_SCRIPT app1.wsgi:application;
+    }
+
+    location /app2/ {
+        include         uwsgi_params;
+        uwsgi_pass      unix:/django/django_app/app2/app2.sock;
+        uwsgi_param     UWSGI_CHDIR /django/django_app/app2;
+        uwsgi_param     UWSGI_SCRIPT app2.wsgi:application;
     }
 
     location /static/ {
