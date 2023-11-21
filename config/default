@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name django-test-git-django-test.apps.lab.okd.local;  # Zmodyfikuj na swoją domenę
+    server_name 0.0.0.0;  # Zmodyfikuj na swoją domenę
 
     location = /favicon.ico { access_log off; log_not_found off; }
 
