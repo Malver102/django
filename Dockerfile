@@ -48,8 +48,6 @@ COPY config/app2_uwsgi.ini /etc/uwsgi/emperor.d/
 
 RUN chmod +x /django/run.sh
 
-ENTRYPOINT ["/django/run.sh"]
-
 EXPOSE 8000
 
 CMD bash
