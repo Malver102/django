@@ -50,6 +50,6 @@ WORKDIR /django/django_app
 
 ENTRYPOINT uswgi --http :8000 --module django_app.wsgi
 
-EXPOSE 8000
+EXPOSE 800022
 
 CMD ['service', 'nginx', 'start']
