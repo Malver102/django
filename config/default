@@ -1,7 +1,7 @@
 
 server {
     listen 80;
-    server_name your_domain.com;
+    server_name 0.0.0.0;
 
     location /app1/ {
         include         uwsgi_params;
