@@ -22,7 +22,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PIP_ROOT_USER_ACTION=ignore
 
 # install required packages
-RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-properties-common vim uwsgi
+RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-properties-common vim 
 
 
 
@@ -46,8 +46,10 @@ RUN /bin/bash -c 'mkdir /etc/uwsgi/emperor.d'
 COPY config/app1_uwsgi.ini /etc/uwsgi/emperor.d/
 COPY config/app2_uwsgi.ini /etc/uwsgi/emperor.d/
 
-RUN chmod +x /django/run.sh
+WORKDIR /django/django_app
+
+ENTRYPOINT service nginx restart
 
 EXPOSE 8000
 
-CMD bash
+CMD ["uwsgi", "--http", ":8000", "--module", "django_app.wsgi"]

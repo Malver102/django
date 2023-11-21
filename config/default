@@ -1,7 +1,12 @@
 
 server {
     listen 80;
-    server_name 0.0.0.0;
+    server_name 192.168.199.41;
+
+    location / {
+        root   /var/www/nginx-default;
+        index  index.html index.htm;
+    }
 
     location /app1/ {
         include         uwsgi_params;
