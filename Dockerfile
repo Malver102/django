@@ -48,7 +48,7 @@ COPY config/app2_uwsgi.ini /etc/uwsgi/emperor.d/
 
 WORKDIR /django/django_app
 
-ENTRYPOINT service nginx restart
+RUN service nginx restart
 
 EXPOSE 8000
 
