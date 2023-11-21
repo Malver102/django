@@ -24,7 +24,6 @@ ENV PIP_ROOT_USER_ACTION=ignore
 # install required packages
 RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-properties-common vim uwsgi
 
-ENTRYPOINT service nginx start
  
 RUN python3 -m venv django
 
