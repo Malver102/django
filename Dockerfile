@@ -41,7 +41,7 @@ RUN /django/bin/django-admin startproject django_app
 COPY . /django
 COPY config/default /etc/nginx/sites-available/
 
-RUN /bin/bash -c 'mkdir /etc/uwsgi/emperor.d'
+RUN mkdir /etc/uwsgi/emperor.d
 
 COPY config/app1_uwsgi.ini /etc/uwsgi/emperor.d/
 COPY config/app2_uwsgi.ini /etc/uwsgi/emperor.d/
