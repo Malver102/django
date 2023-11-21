@@ -47,7 +47,7 @@ RUN /bin/bash -c 'mkdir /etc/uwsgi-emperor' && \
 COPY config/emperor.ini /etc/uwsgi-emperor/ 
 COPY config/django.ini /etc/uwsgi-emperor/vassals/
 
-ENTRYPOINT service nginx start
+RUN service nginx restart
 
 EXPOSE 8000
 
