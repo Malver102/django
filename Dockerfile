@@ -48,8 +48,8 @@ COPY config/app2_uwsgi.ini /etc/uwsgi/emperor.d/
 
 WORKDIR /django/django_app
 
-RUN service nginx restart
+RUN uswgi --http :8000 --module django_app.wsgi
 
 EXPOSE 8000
 
-CMD ["uwsgi", "--http", ":8000", "--module", "django_app.wsgi"]
+CMD ['service', 'nginx', 'start']

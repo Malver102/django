@@ -4,8 +4,8 @@ server {
     server_name 192.168.199.41;
 
     location / {
-        root   /var/www/nginx-default;
-        index  index.html index.htm;
+        root   /var/www/html;
+        index  index.html index.htm indexedDB.nginx-debian.html;
     }
 
     location /app1/ {
