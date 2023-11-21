@@ -25,20 +25,30 @@ ENV PIP_ROOT_USER_ACTION=ignore
 RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-properties-common vim uwsgi
 
 
+
+RUN python3 -m venv django
+
 WORKDIR /django
-COPY . /django
-RUN python3 -m venv server
+COPY requirements.txt /django
 
-RUN ls /django
+ENV PATH="/django/bin:$PATH"
+RUN /bin/bash -c "source /django/bin/activate"
 
-RUN /bin/bash -c "source ./Project/Scripts/activate"
+
 RUN pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r requirements.txt
+RUN /django/bin/django-admin startproject django_app
+
+COPY . /django
 COPY config/default /etc/nginx/sites-available/
+
 RUN /bin/bash -c 'mkdir /etc/uwsgi-emperor' && \
     /bin/bash -c 'mkdir /etc/uwsgi-emperor/vassals'
-COPY config/emperor.ini /etc/uwsgi-emperor/
+
+COPY config/emperor.ini /etc/uwsgi-emperor/ 
 COPY config/django.ini /etc/uwsgi-emperor/vassals/
 
 RUN service nginx start
-expose 8000
-cmd ["uwsgi", "--emperor", "/etc/uwsgi-emperor/emperor.ini"]
+
+EXPOSE 8000
+
+CMD ["uwsgi", "--emperor", "/etc/uwsgi-emperor/emperor.ini"]
