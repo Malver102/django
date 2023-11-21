@@ -46,6 +46,8 @@ RUN /bin/bash -c 'mkdir /etc/uwsgi/emperor.d'
 COPY config/app1_uwsgi.ini /etc/uwsgi/emperor.d/
 COPY config/app2_uwsgi.ini /etc/uwsgi/emperor.d/
 
+RUN chmod +x /django/run.sh
+
 ENTRYPOINT ["/django/run.sh"]
 
 EXPOSE 8000
