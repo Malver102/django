@@ -24,8 +24,8 @@ ENV PIP_ROOT_USER_ACTION=ignore
 # install required packages
 RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-properties-common vim uwsgi
 
-
-
+ENTRYPOINT service nginx start
+ 
 RUN python3 -m venv django
 
 WORKDIR /django
@@ -47,7 +47,6 @@ RUN /bin/bash -c 'mkdir /etc/uwsgi-emperor' && \
 COPY config/emperor.ini /etc/uwsgi-emperor/ 
 COPY config/django.ini /etc/uwsgi-emperor/vassals/
 
-ENTRYPOINT service nginx start
 
 EXPOSE 8000
 
