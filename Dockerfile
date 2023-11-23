@@ -44,7 +44,9 @@ COPY config/default /etc/nginx/sites-available/
 
 RUN mkdir -p /etc/uwsgi/emperor.d
 
-COPY config/app1_uwsgi.ini /etc/uwsgi/emperor.d/
+COPY config/app1_uwsgi.ini /etc/uwsgi/apps-enabled
+RUN /etc/init.d/uwsgi start
+RUN /etc/init.d/nginx start
 #COPY config/app2_uwsgi.ini /etc/uwsgi/emperor.d/
 
 WORKDIR /django/django_app
@@ -52,5 +54,3 @@ WORKDIR /django/django_app
 #ENTRYPOINT service nginx start
 
 EXPOSE 8000
-
-CMD ['uswgi', '--http', ':8000', '--module', 'django_app.wsgi']
