@@ -1,32 +1,35 @@
+upstream django_home_page {
+    server unix:///django/django_app/mysite.sock;
+}
 
 server {
     listen 80;
-    server_name 192.168.199.41;
+    server_name _;
+    
 
-    location /app1/ {
-        include         uwsgi_params;
-        uwsgi_pass      unix:/django/django_app/app1/app1.sock;
-        uwsgi_param     UWSGI_CHDIR /django/django_app/app1;
-        uwsgi_param     UWSGI_SCRIPT app1.wsgi:application;
-    }
+    root /django/django_app;
+    server_tokens off;
 
-    location /app2/ {
-        include         uwsgi_params;
-        uwsgi_pass      unix:/django/django_app/app2/app2.sock;
-        uwsgi_param     UWSGI_CHDIR /django/django_app/app2;
-        uwsgi_param     UWSGI_SCRIPT app2.wsgi:application;
-    }
 
-    location /static/ {
-        alias /django/static/;
-    }
+    access_log /var/log/nginx/home-page-access.log custom;
+    error_log /var/log/nginx/home-page-bi-error.log;
 
-    location /media/ {
-        alias /django/media/;
-    }
+    client_max_body_size 20M;
 
-    error_page 404 /404.html;
-    location = /404.html {
-        root /django/;
+    location / {
+        root /django/django_app;
+        uwsgi_pass  django_home_page;
+        include     /etc/nginx/uwsgi_params;
+
+        uwsgi_read_timeout 600;
+
+   
+        # for for problem uwsgi_response_writev_headers_and_body_do
+        uwsgi_max_temp_file_size 30480m;
+        uwsgi_ignore_client_abort on;
+
+        location /static {
+            alias /django/django_app/_static;
+        }
     }
-}
+} 
