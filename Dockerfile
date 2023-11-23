@@ -14,7 +14,7 @@
 
 from ubuntu
 
-ARG VENVLOCATION = /opt/venv
+ARG VENVLOCATION=/opt/venv
 # update packages
 run apt-get update
 
