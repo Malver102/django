@@ -1,5 +1,5 @@
 upstream django_home_page {
-    server unix:///django/django_app/mysite.sock;
+    server unix:///var/www/django_app/mysite.sock;
 }
 
 server {
@@ -7,17 +7,17 @@ server {
     server_name _;
     
 
-    root /django/django_app;
+    root /var/www/django_app;
     server_tokens off;
 
 
-    access_log /var/log/nginx/home-page-access.log custom;
+    access_log /var/log/nginx/home-page-access.log;
     error_log /var/log/nginx/home-page-bi-error.log;
 
     client_max_body_size 20M;
 
     location / {
-        root /django/django_app;
+        root /var/www/django_app;
         uwsgi_pass  django_home_page;
         include     /etc/nginx/uwsgi_params;
 
@@ -29,7 +29,7 @@ server {
         uwsgi_ignore_client_abort on;
 
         location /static {
-            alias /django/django_app/_static;
+            alias /var/www/django_app/_static;
         }
     }
 } 
