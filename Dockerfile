@@ -19,7 +19,7 @@ from ubuntu
 run apt-get update
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PIP_ROOT_USER_ACTION=ignore
+# ENV PIP_ROOT_USER_ACTION=ignore
 
 # install required packages
 RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-properties-common vim uwsgi
@@ -27,14 +27,12 @@ RUN apt-get install -y python3-venv python3-dev python3-pip nginx software-prope
 
 
 
-RUN python3 -m venv venv 
-WORKDIR /django
-COPY requirements.txt /django
-
-
+RUN python3 -m venv /opt/venv 
+WORKDIR /var/www/
  
-ENV PATH="/venv/bin:$PATH"
-RUN /bin/bash -c "source /venv/bin/activate"
+
+ENV PATH="/opt/venv/bin:$PATH"
+RUN /bin/bash -c "source /opt/venv/bin/activate"
 
 
 RUN pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org -r requirements.txt
