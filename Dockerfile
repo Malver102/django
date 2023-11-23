@@ -52,4 +52,4 @@ WORKDIR /django/django_app
 
 EXPOSE 8000
 
-CMD ['uswgi', '--http', ':8000', '--module', 'django_app.wsgi']
+CMD bash
