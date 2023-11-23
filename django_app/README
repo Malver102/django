@@ -1,0 +1,100 @@
+[uwsgi]
+# additional parameter needed for multienv UWSGI
+autoload = false
+
+# Django-related settings
+# the base directory (full path)
+chdir           = /var/www/home-page
+# Django's wsgi file
+module          = server.wsgi
+# the virtualenv (full path)
+home            = /opt/Envs/home-page
+virtualenv      = /opt/Envs/home-page
+
+plugins = python3,logfile
+
+uid = www-data
+gid = www-data
+
+# process-related settings
+# master
+master          = true
+# maximum number of worker processes
+processes       = 5
+# the socket (use the full path to be safe
+socket          = /var/www/home-page/mysite.sock
+# ... with appropriate permissions - may be needed
+chmod-socket    = 666
+chown-socket    = www-data:www-data
+
+# clear environment on exit
+vacuum          = true
+
+# BJ: 2018-516
+# fix for the problem: uwsgi_response_writev_headers_and_body_do
+http-timeout = 3600000
+
+# for rotate logs
+set-placeholder = log_dir=/var/log/uwsgi/vassals
+set-placeholder = log_prefix=intranet-
+set-placeholder = log_num=14
+logto = %(log_dir)/%(log_prefix)@(exec://date +%%Y-%%m-%%d).log
+log-reopen = true 
+
+
+
+
+
+
+
+
+
+
+
+nginx
+
+
+
+upstream django_home_page {
+    server unix:///var/www/home-page/mysite.sock;
+}
+
+server {
+    listen 80;
+    server_name intranet.drutex.pl;
+    return 301 https://intranet.drutex.pl$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name intranet.drutex.pl;
+
+    root /var/www/home-page;
+    server_tokens off;
+
+    # ssl on;
+    ssl_certificate /etc/nginx/ssl/drutex.pl.crt;
+    ssl_certificate_key /etc/nginx/ssl/drutex.pl.key;
+
+    access_log /var/log/nginx/home-page-access.log custom;
+    error_log /var/log/nginx/home-page-bi-error.log;
+
+    client_max_body_size 20M;
+
+    location / {
+        root /var/www/home-page/;
+        uwsgi_pass  django_home_page;
+        include     /etc/nginx/uwsgi_params;
+
+        uwsgi_read_timeout 600;
+
+   
+        # for for problem uwsgi_response_writev_headers_and_body_do
+        uwsgi_max_temp_file_size 30480m;
+        uwsgi_ignore_client_abort on;
+
+        location /static {
+            alias /var/www/home-page/_static;
+        }
+    }
+} 
