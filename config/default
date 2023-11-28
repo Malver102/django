@@ -18,7 +18,7 @@ server {
 
     location / {
         root /var/www/django_app;
-        uwsgi_pass  django_home_page;
+        uwsgi_pass  unix:/var/www/django_app/mysite.sock;
         include     /etc/nginx/uwsgi_params;
 
         uwsgi_read_timeout 600;
